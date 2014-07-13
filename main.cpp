@@ -1,9 +1,9 @@
-#include <iostream>
+#include <iostream>                // comentariu
 #include <GL/glut.h>
 
 using namespace std;
 
-void display(void) 
+void display(void)
 {
 	// Clear the color buffer, restore the background
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
 	glutInitWindowSize(800, 600);
 	glutCreateWindow("O lume cubica");
-	glutDisplayFunc(display); 
+	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
 	initialize();
 	glutMainLoop();
