@@ -138,6 +138,7 @@ void initialize(void)
 
 int main(int argc, char *argv[])
 {
+//	cout << "\n\n Yay! Pot lucra si pe Ubuntu! \n\n\n";
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(800, 600);
