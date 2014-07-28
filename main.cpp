@@ -1,6 +1,7 @@
 #include <iostream>                // comentariu
 #include <GL/glut.h>
 #include <math.h>
+#include <unistd.h>
 #include "vector.h"
 
 using namespace std;
@@ -9,10 +10,20 @@ Vector eye;
 Vector target;
 Vector dir;
 
+Vector res = createVector(0, 0, 0);
+Vector jumpForce = createVector(0, 0, 0);
+
+GLfloat DRAG_FORCE = 0.5;
+GLfloat EYE_HEIGHT = 51.5;
+
 GLfloat light_poz[] = { 10, 10, 10, 1 };
 GLfloat white_light[] = { 1, 1, 1, 1 };
 GLfloat angle = 0;
+GLfloat globalAngleY = 225;
+GLfloat globalAngleX = 0;
 GLint width, height;
+
+bool keyState[256] = {false};
 
 typedef struct _cube
 {
@@ -31,48 +42,157 @@ void motion(int x, int y)
 	angleX = 90 - (y * (180 / (GLfloat) height));
 
 	dir = substractVectors(target, eye);
+	if (angleX + globalAngleX > 90)
+	{
+		angleX = 90 - globalAngleX;
+		globalAngleX = 90;
+	}
+	else if (angleX + globalAngleX < -90)
+	{
+		angleX = -90 - globalAngleX;
+		globalAngleX = -90;
+	}
+	else globalAngleX += angleX;
 	dir = rotateVector(dir, angleY, 0, 1, 0);
+	Vector dir2 = createVector(dir.x, 0, dir.z);
+	dir2 = rotateVector(dir2, -90, 0, 1, 0);
+	normalizeVector(dir2);
+	dir = rotateVector(dir, angleX, dir2.x, 0, dir2.z);
+
 	target = addVectors(eye, dir);
+
+
 
 	if (x != width / 2 || y != height / 2) 
 		glutWarpPointer(width / 2, height / 2);
 	glutPostRedisplay();
 }
 
+void move(GLfloat angle)
+{
+
+	res = createVector(0, 0, 0);
+
+	if (keyState['w'] == true) {
+		dir = substractVectors(target, eye);
+		normalizeVector(dir);
+		res = addVectors(res, dir);
+	}
+
+	if (keyState['s'] == true) {
+		dir = substractVectors(target, eye);
+		normalizeVector(dir);
+		res = substractVectors(res, dir);
+	}
+
+	if (keyState['a'] == true) {
+		dir = substractVectors(target, eye);
+		normalizeVector(dir);
+		dir = rotateVector(dir, 90, 0, 1, 0);
+		res = addVectors(res, dir);
+	}
+
+	if (keyState['d'] == true) {
+		dir = substractVectors(target, eye);
+		normalizeVector(dir);
+		dir = rotateVector(dir, -90, 0, 1, 0);
+		res = addVectors(res, dir);
+	}
+
+
+	if (keyState[32] == true && jumpForce.y == 0)
+	{
+		jumpForce = createVector(0, 0.5, 0);
+	}
+	// if (res.x != 0 && res.y != 0 && res.z != 0) {
+	// 	// Vector dragForce = rotateVector(res, 180, 0, 1, 0);
+	// 	// dragForce = multiplyVector(dragForce, 0.5);
+
+	// 	// res = addVectors(res, dragForce);
+	// }
+
+
+	if (eye.y > EYE_HEIGHT) {
+		jumpForce = substractVectors(jumpForce, createVector(0, 0.07, 0));
+	} else if (jumpForce.y != 0.5) {
+		keyState[32] = false;
+		res.y = 0;
+		jumpForce = createVector(0, 0, 0);
+		eye.y = EYE_HEIGHT;
+	}
+
+	res = multiplyVector(res, 0.9);
+	if (jumpForce.y != 0)
+		res = addVectors(res, jumpForce);
+	else if (res.x != 0 || res.y != 0 || res.z != 0) {
+		res = addVectors(res, createVector(0, 0.5 * sin(angle * DEG_TO_RAD), 0));
+	}
+	cout << res.x << " " << res.y << " " << res.z << "\n";
+
+	eye = addVectors(eye, res);
+	target = addVectors(target, res);
+}
+
 void keyboard(unsigned char key, int x, int y)
 {
-	cout << eye.x << " " << eye.y << " " << eye.z << "\n";
+	// cout << eye.x << " " << eye.y << " " << eye.z << "\n";
 	switch (key)
 	{
 		case 'w':
 		case 'W':
-			dir = substractVectors(target, eye);
-			normalizeVector(dir);
-			eye = addVectors(eye, dir);
-			target = addVectors(target, dir);
+			keyState['w'] = true;
 			break;
 		case 's':
 		case 'S':
-			dir = substractVectors(target, eye);
-			normalizeVector(dir);
-			eye = substractVectors(eye, dir);
-			target = substractVectors(target, dir);
+			keyState['s'] = true;
 			break; 
 		case 'a':
 		case 'A':
-			dir = substractVectors(target, eye);
-			normalizeVector(dir);
-			dir = rotateVector(dir, 90, 0, 1, 0);
-			eye = addVectors(eye, dir);
-			target = addVectors(target, dir);
+			keyState['a'] = true;
 			break;
 		case 'd':
 		case 'D':
-			dir = substractVectors(target, eye);
-			normalizeVector(dir);
-			dir = rotateVector(dir, -90, 0, 1, 0);
-			eye = addVectors(eye, dir);
-			target = addVectors(target, dir);
+			keyState['d'] = true;
+			break;
+		case 32:
+			keyState[32] = true;
+			break;
+		case 27:
+			exit(0);
+	}
+}
+
+void specialKeyboard(int key, int x, int y)
+{
+	//cout << eye.x << " " << eye.y << " " << eye.z << "\n";
+	switch (key)
+	{
+		case 27:
+			exit(0);
+	}
+}
+
+
+void keyboardUp(unsigned char key, int x, int y)
+{
+	//cout << eye.x << " " << eye.y << " " << eye.z << "\n";
+	switch (key)
+	{
+		case 'w':
+		case 'W':
+			keyState['w'] = false;
+			break;
+		case 's':
+		case 'S':
+			keyState['s'] = false;
+			break; 
+		case 'a':
+		case 'A':
+			keyState['a'] = false;
+			break;
+		case 'd':
+		case 'D':
+			keyState['d'] = false;
 			break;
 	}
 }
@@ -173,6 +293,10 @@ void display(void)
 
 void tick(int val)
 {
+	angle = angle + 0.001;
+	if (angle > 360)
+		angle = 360;
+	move(angle);
 	glutPostRedisplay();
 	glutTimerFunc(1, tick, val + 1);
 }
@@ -206,7 +330,7 @@ void initialize(void)
 	glEnable(GL_LIGHT0);
 	glColorMaterial(GL_FRONT, GL_AMBIENT);
 
-	eye = createVector(10, 51.5, 10);
+	eye = createVector(10, EYE_HEIGHT, 10);
 	target = createVector(0, 51.5, 0);
 
 	world = (cube****) calloc (100, sizeof (cube***));
@@ -247,6 +371,8 @@ int main(int argc, char *argv[])
 	glutReshapeFunc(reshape);
 	glutTimerFunc(1, tick, 0);
 	glutKeyboardFunc(keyboard);
+	glutSpecialFunc(specialKeyboard);
+	glutKeyboardUpFunc(keyboardUp);
 	glutMotionFunc(motion);
 	glutPassiveMotionFunc(motion);
 	initialize();
