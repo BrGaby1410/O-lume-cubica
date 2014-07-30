@@ -23,6 +23,8 @@ GLfloat globalAngleY = 225;
 GLfloat globalAngleX = 0;
 GLint width, height;
 
+GLfloat SPEED = 0.2;
+
 bool keyState[256] = {false};
 
 typedef struct _cube
@@ -76,18 +78,21 @@ void move(GLfloat angle)
 	if (keyState['w'] == true) {
 		dir = substractVectors(target, eye);
 		normalizeVector(dir);
+		dir = multiplyVector(dir, SPEED);
 		res = addVectors(res, dir);
 	}
 
 	if (keyState['s'] == true) {
 		dir = substractVectors(target, eye);
 		normalizeVector(dir);
+		dir = multiplyVector(dir, SPEED);
 		res = substractVectors(res, dir);
 	}
 
 	if (keyState['a'] == true) {
 		dir = substractVectors(target, eye);
 		normalizeVector(dir);
+		dir = multiplyVector(dir, SPEED);
 		dir = rotateVector(dir, 90, 0, 1, 0);
 		res = addVectors(res, dir);
 	}
@@ -95,6 +100,7 @@ void move(GLfloat angle)
 	if (keyState['d'] == true) {
 		dir = substractVectors(target, eye);
 		normalizeVector(dir);
+		dir = multiplyVector(dir, SPEED);
 		dir = rotateVector(dir, -90, 0, 1, 0);
 		res = addVectors(res, dir);
 	}
@@ -125,7 +131,7 @@ void move(GLfloat angle)
 	if (jumpForce.y != 0)
 		res = addVectors(res, jumpForce);
 	else if (res.x != 0 || res.y != 0 || res.z != 0) {
-		res = addVectors(res, createVector(0, 0.5 * sin(angle * DEG_TO_RAD), 0));
+		// res = addVectors(res, createVector(0, 0.5 * sin(angle * DEG_TO_RAD), 0));
 	}
 	cout << res.x << " " << res.y << " " << res.z << "\n";
 
