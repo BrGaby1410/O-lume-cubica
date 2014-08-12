@@ -1,4 +1,4 @@
-#include <iostream>                // comentariu
+#include <iostream>
 #include <GL/glut.h>
 #include <math.h>
 #include <unistd.h>
@@ -34,6 +34,39 @@ typedef struct _cube
 
 cube ****world;
 bool visited[100][100][100];
+char collision[130000];
+
+void set_bit(int pos, char &a)
+{
+	a |= (1 << pos);
+}
+
+void clear_bit(int pos, char &a)
+{
+	a &= ~(1 << pos);
+}
+
+int get_bit(int pos, char a)
+{
+	a &= (1 << pos);
+	return (a > 0);
+}
+
+void set_cube_at(int x, int y, int z)
+{
+	set_bit(x, collision[y + z * 1300]);
+}
+
+void clear_cube_at(int x, int y, int z)
+{
+	clear_bit(x, collision[y + z * 1300]);
+}
+
+int get_cube_at(int x, int y, int z)
+{
+	return get_bit(x, collision[y + z * 1300]);
+}
+
 
 void motion(int x, int y)
 {
@@ -44,15 +77,15 @@ void motion(int x, int y)
 	angleX = 90 - (y * (180 / (GLfloat) height));
 
 	dir = substractVectors(target, eye);
-	if (angleX + globalAngleX > 90)
+	if (angleX + globalAngleX > 89)
 	{
-		angleX = 90 - globalAngleX;
-		globalAngleX = 90;
+		angleX = 89 - globalAngleX;
+		globalAngleX = 89;
 	}
-	else if (angleX + globalAngleX < -90)
+	else if (angleX + globalAngleX < -89)
 	{
-		angleX = -90 - globalAngleX;
-		globalAngleX = -90;
+		angleX = -89 - globalAngleX;
+		globalAngleX = -89;
 	}
 	else globalAngleX += angleX;
 	dir = rotateVector(dir, angleY, 0, 1, 0);
@@ -77,6 +110,7 @@ void move(GLfloat angle)
 
 	if (keyState['w'] == true) {
 		dir = substractVectors(target, eye);
+		dir.y = 0;
 		normalizeVector(dir);
 		dir = multiplyVector(dir, SPEED);
 		res = addVectors(res, dir);
@@ -84,6 +118,7 @@ void move(GLfloat angle)
 
 	if (keyState['s'] == true) {
 		dir = substractVectors(target, eye);
+		dir.y = 0;
 		normalizeVector(dir);
 		dir = multiplyVector(dir, SPEED);
 		res = substractVectors(res, dir);
@@ -91,6 +126,7 @@ void move(GLfloat angle)
 
 	if (keyState['a'] == true) {
 		dir = substractVectors(target, eye);
+		dir.y = 0;
 		normalizeVector(dir);
 		dir = multiplyVector(dir, SPEED);
 		dir = rotateVector(dir, 90, 0, 1, 0);
@@ -99,6 +135,7 @@ void move(GLfloat angle)
 
 	if (keyState['d'] == true) {
 		dir = substractVectors(target, eye);
+		dir.y = 0;
 		normalizeVector(dir);
 		dir = multiplyVector(dir, SPEED);
 		dir = rotateVector(dir, -90, 0, 1, 0);
@@ -108,7 +145,7 @@ void move(GLfloat angle)
 
 	if (keyState[32] == true && jumpForce.y == 0)
 	{
-		jumpForce = createVector(0, 0.5, 0);
+		jumpForce = createVector(0, 0.5, 0);                   // 0.171
 	}
 	// if (res.x != 0 && res.y != 0 && res.z != 0) {
 	// 	// Vector dragForce = rotateVector(res, 180, 0, 1, 0);
@@ -119,8 +156,8 @@ void move(GLfloat angle)
 
 
 	if (eye.y > EYE_HEIGHT) {
-		jumpForce = substractVectors(jumpForce, createVector(0, 0.07, 0));
-	} else if (jumpForce.y != 0.5) {
+		jumpForce = substractVectors(jumpForce, createVector(0, 0.07, 0));           // 0.011
+	} else if (jumpForce.y != 0.5) {                   // 0.171
 		keyState[32] = false;
 		res.y = 0;
 		jumpForce = createVector(0, 0, 0);
@@ -133,7 +170,9 @@ void move(GLfloat angle)
 	else if (res.x != 0 || res.y != 0 || res.z != 0) {
 		// res = addVectors(res, createVector(0, 0.5 * sin(angle * DEG_TO_RAD), 0));
 	}
-	cout << res.x << " " << res.y << " " << res.z << "\n";
+//	cout << res.x << " " << res.y << " " << res.z << "\n";
+	cout << eye.x << " " << eye.y << " " << eye.z << "\n";
+	cout << jumpForce.y << "\n\n";
 
 	eye = addVectors(eye, res);
 	target = addVectors(target, res);
@@ -213,6 +252,7 @@ void draw_cube(cube c)
 
 void draw_temp_world()
 {
+	glColor3f(0.2, 0.2, 0.2);
 	glBegin(GL_QUADS);
 		glNormal3f(0, 1, 0);
 		glVertex3f(0, 50, 0);
@@ -221,9 +261,50 @@ void draw_temp_world()
 		glVertex3f(100, 50, 0);
 	glEnd();
 	glColor3f(1,0,0);
+		glPushMatrix();
+		glTranslatef(17,51,15);
+		glutSolidCube(1);
+	glPopMatrix();
 	glPushMatrix();
-		glTranslatef(15,52,15);
-		glutSolidCube(2);
+		glTranslatef(16,52,15);
+		glutSolidCube(1);
+	glPopMatrix();
+	glPushMatrix();
+		glTranslatef(15,53,15);
+		glutSolidCube(1);
+	glPopMatrix();
+	glPushMatrix();
+		glTranslatef(18,50,15);
+		glutSolidCube(1);
+	glPopMatrix();
+	glPushMatrix();
+		glTranslatef(0, 50, 0);
+		glColor3f(1, 0, 1);
+		glBegin(GL_QUADS);
+			glNormal3f(0, 0, 1);
+			glVertex3f(0, 0, 0);
+			glVertex3f(100, 0, 0);
+			glVertex3f(100, 1, 0);
+			glVertex3f(0, 1, 0);
+
+			glNormal3f(-1, 0, 0);
+			glVertex3f(100, 0, 0);
+			glVertex3f(100, 0, 100);
+			glVertex3f(100, 1, 100);
+			glVertex3f(100, 1, 0);
+
+			glNormal3f(0, 0, -1);
+			glVertex3f(0, 0, 100);
+			glVertex3f(100, 0, 100);
+			glVertex3f(100, 1, 100);
+			glVertex3f(0, 1, 100);
+
+			glNormal3f(1, 0, 0);
+			glVertex3f(0, 0, 0);
+			glVertex3f(0, 0, 100);
+			glVertex3f(0, 1, 100);
+			glVertex3f(0, 1, 0);
+		glEnd();
 	glPopMatrix();
 }
 
@@ -334,7 +415,7 @@ void initialize(void)
 	glEnable(GL_LIGHTING);
 	glEnable(GL_COLOR_MATERIAL);
 	glEnable(GL_LIGHT0);
-	glColorMaterial(GL_FRONT, GL_AMBIENT);
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT);
 
 	eye = createVector(10, EYE_HEIGHT, 10);
 	target = createVector(0, 51.5, 0);
@@ -368,7 +449,6 @@ void initialize(void)
 
 int main(int argc, char *argv[])
 {
-//	cout << "\n\n Yay! Pot lucra si pe Ubuntu! \n\n\n";
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(800, 600);
