@@ -1,8 +1,8 @@
-#define GL_GLEXT_PROTOTYPE
+// #define GL_GLEXT_PROTOTYPE
 
 #include <iostream>
-#include <GL/glut.h>
-#include <GL/glew.h>
+#include <GL/glew.h>   // mai intai glew.h
+#include <GL/glut.h>   // d-abia apoi glut.h, nu invers
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -27,7 +27,7 @@ GLuint CreateShader(char* filename, GLenum shadertype)
 {
 	GLuint id = glCreateShader(shadertype);
 	char *source = incarca(filename);
-	glShaderSource(id, 1, &source, NULL);
+	glShaderSource(id, 1, /* (const char **) */ &source, NULL);
 	glCompileShader(id);
 	return id;
 }
@@ -78,6 +78,7 @@ int main(int argc, char *argv[])
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(800, 600);
 	glutCreateWindow("O lume cubica");
+	glewInit();                                   // 
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
 	initialize();
