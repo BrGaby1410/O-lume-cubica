@@ -3,6 +3,7 @@
 #include <math.h>
 #include <unistd.h>
 #include "vector.h"
+#include "world.h"
 
 using namespace std;
 

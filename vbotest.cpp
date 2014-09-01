@@ -75,6 +75,12 @@ void specialKeyboard(int key, int x, int y);
 void keyboardUp(unsigned char key, int x, int y);
 void tick(int val);
 
+typedef struct _Vertex
+{
+	float x, y, z, nx, ny, nz, tu, tv;
+} Vertex;
+
+Vertex vertices[16 * 16 * 16 * 8];
 
 void Clear_cube(unsigned int et, unsigned int ran, unsigned int col)
 {
@@ -201,13 +207,20 @@ void Add_cube(unsigned int et, unsigned int ran, unsigned int col)
 
 void makeV()
 {
+	int count = 0;
 	for (int j = 0; j < 17; j++) // etaj
 		for (int k = 0; k < 17; k++) // rand
 			for (int i = 0; i < 17; i++) // coloana
 			{
 				coord[num_coord++] = i;  
 				coord[num_coord++] = j;                    
-				coord[num_coord++] = k;                                           
+				coord[num_coord++] = k;
+				vertices[count].x = i;
+				vertices[count].y = j;
+				vertices[count].z = k;
+				vertices[count].nx = 0;
+				vertices[count].ny = 1;
+				vertices[count].nz = 0;                                        
 			}                  
 	// coord[num_coord++] = 100;
 	// coord[num_coord++] = 8;
