@@ -1,4 +1,5 @@
 #include <iostream>
+#include <GL/glew.h>
 #include <GL/glut.h>
 #include <math.h>
 #include <unistd.h>
@@ -36,6 +37,8 @@ typedef struct _cube
 cube ****world;
 bool visited[100][100][100];
 char collision[130000];
+
+ChunkData chunk;
 
 void set_bit(int pos, char &a)
 {
@@ -172,8 +175,8 @@ void move(GLfloat angle)
 		// res = addVectors(res, createVector(0, 0.5 * sin(angle * DEG_TO_RAD), 0));
 	}
 //	cout << res.x << " " << res.y << " " << res.z << "\n";
-	cout << eye.x << " " << eye.y << " " << eye.z << "\n";
-	cout << jumpForce.y << "\n\n";
+	// cout << eye.x << " " << eye.y << " " << eye.z << "\n";
+	// cout << jumpForce.y << "\n\n";
 
 	eye = addVectors(eye, res);
 	target = addVectors(target, res);
@@ -373,8 +376,11 @@ void display(void)
 	// 			visited[i][j][k] = false;
 
 	// draw_world(10, 51, 10);
-	draw_temp_world();
-	
+	// draw_temp_world();
+	// glutSolidCube(10);
+	glColor3f(1, 0, 0);
+	drawChunk(chunk);
+
 	// Swap buffers in GPU
 	glutSwapBuffers();
 }
@@ -418,34 +424,39 @@ void initialize(void)
 	glEnable(GL_LIGHT0);
 	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT);
 
-	eye = createVector(10, EYE_HEIGHT, 10);
-	target = createVector(0, 51.5, 0);
+	eye = createVector(20, 20 + EYE_HEIGHT, 20);
+	target = createVector(0, 0, 0);
 
-	world = (cube****) calloc (100, sizeof (cube***));
-	for (int i = 0; i < 100; i++)
-	{
-		world[i] = (cube***) calloc (100, sizeof(cube**));
-		for (int j = 0; j < 100; j++)
-		{
-			world[i][j] = (cube**) calloc (100, sizeof (cube*));
-			for (int k = 0; k < 100; k++)
-				 visited[i][j][k] = false;
-		}
-	}
+	// world = (cube****) calloc (100, sizeof (cube***));
+	// for (int i = 0; i < 100; i++)
+	// {
+	// 	world[i] = (cube***) calloc (100, sizeof(cube**));
+	// 	for (int j = 0; j < 100; j++)
+	// 	{
+	// 		world[i][j] = (cube**) calloc (100, sizeof (cube*));
+	// 		for (int k = 0; k < 100; k++)
+	// 			 visited[i][j][k] = false;
+	// 	}
+	// }
 
-	for (int i = 0; i < 100; i++)
-	{
-		for (int j = 0; j < 50; j++)
-		{
-			for (int k = 0; k < 100; k++)
-			{
-				world[i][j][k] = (cube*) malloc (sizeof(cube));
-				(*world[i][j][k]).x = i;
-				(*world[i][j][k]).y = j;
-				(*world[i][j][k]).z = k;
-			}
-		}
-	}
+	// for (int i = 0; i < 100; i++)
+	// {
+	// 	for (int j = 0; j < 50; j++)
+	// 	{
+	// 		for (int k = 0; k < 100; k++)
+	// 		{
+	// 			world[i][j][k] = (cube*) malloc (sizeof(cube));
+	// 			(*world[i][j][k]).x = i;
+	// 			(*world[i][j][k]).y = j;
+	// 			(*world[i][j][k]).z = k;
+	// 		}
+	// 	}
+	// }
+
+	cout << "Creating chunk... " << flush;
+	chunk = createChunk(0, 50, 0);
+	cout << "Done!" << "\n" << flush;
+
 }
 
 int main(int argc, char *argv[])
@@ -454,6 +465,7 @@ int main(int argc, char *argv[])
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(800, 600);
 	glutCreateWindow("O lume cubica");
+	glewInit();
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
 	glutTimerFunc(1, tick, 0);
