@@ -1,4 +1,6 @@
+#include <GL/glew.h>
 #include <GL/glut.h>
+#include <iostream>
 
 typedef struct _vertex {
 	GLfloat vx, vy, vz;
@@ -10,6 +12,11 @@ typedef struct _chunkData {
 	GLuint *indices;
 	GLuint vboHandler;
 	GLuint indexHandler;
+	unsigned int size;
 } ChunkData;
 
 ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ);
+void drawChunk(ChunkData chunk);
+
+void removeCube(ChunkData chunk, int x, int y, int z);
+void addCube(ChunkData chunk, int x, int y, int z);
