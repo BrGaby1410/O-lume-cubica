@@ -16,7 +16,7 @@ Vector res = createVector(0, 0, 0);
 Vector jumpForce = createVector(0, 0, 0);
 
 GLfloat DRAG_FORCE = 0.5;
-GLfloat EYE_HEIGHT = 51.5;
+GLfloat EYE_HEIGHT = 71.5;
 
 GLfloat light_poz[] = { 10, 10, 10, 1 };
 GLfloat white_light[] = { 1, 1, 1, 1 };
@@ -359,6 +359,8 @@ void draw_world(int x, int y, int z)
 	draw_world(x + 1, y, z + 1);
 }
 
+float variabila = 0;
+
 void display(void)
 {
 	// Clear the color buffer, restore the background
@@ -380,7 +382,9 @@ void display(void)
 	// glutSolidCube(10);
 	glColor3f(1, 0, 0);
 	drawChunk(chunk);
-
+	// if (variabila >= 1&& variabila <= 1.5) addCube(chunk, 15,15,15);
+	// variabila += 0.01;
+	// cout << variabila << endl;
 	// Swap buffers in GPU
 	glutSwapBuffers();
 }
@@ -424,7 +428,7 @@ void initialize(void)
 	glEnable(GL_LIGHT0);
 	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT);
 
-	eye = createVector(20, 20 + EYE_HEIGHT, 20);
+	eye = createVector(20, EYE_HEIGHT, 20);
 	target = createVector(0, 0, 0);
 
 	// world = (cube****) calloc (100, sizeof (cube***));
