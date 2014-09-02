@@ -1,3 +1,6 @@
+#ifndef __VECTOR_H
+#define __VECTOR_H
+
 #define PI 3.14159
 #define DEG_TO_RAD PI/180 
 
@@ -13,3 +16,5 @@ Vector addVectors(Vector a, Vector b);
 Vector rotateVector(Vector v, GLfloat angle, GLfloat x, GLfloat y, GLfloat z);
 Vector multiplyVector(Vector v, GLfloat a);
 GLfloat module(Vector a);
+
+#endif

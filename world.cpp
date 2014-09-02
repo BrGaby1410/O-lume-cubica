@@ -1,4 +1,7 @@
 #include "world.h"
+#define STB_IMAGE_IMPLEMENTATION
+#define STBI_ASSERT(x)
+#include "std_image.h"
 
 using namespace std;
 
@@ -315,12 +318,12 @@ void drawChunk(ChunkData chunk)
 	// glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, chunk.indexHandler);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
-	// glEnableClientState(GL_NORMAL_ARRAY);
-	// glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	glVertexPointer(3, GL_FLOAT, sizeof(Vertex), 0);
-	// glNormalPointer(GL_FLOAT, sizeof(Vertex), (char *) NULL + 3 * sizeof(GLfloat));
-	// glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), (char *) NULL + 6 * sizeof(GLfloat));
+	glNormalPointer(GL_FLOAT, sizeof(Vertex), (char *) NULL + 3 * sizeof(GLfloat));
+	glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), (char *) NULL + 6 * sizeof(GLfloat));
 
 	glDrawElements(GL_QUADS, chunk.size, GL_UNSIGNED_INT, chunk.indices);
 	// glDrawArrays(GL_QUADS, 0, chunk.size);
@@ -328,8 +331,8 @@ void drawChunk(ChunkData chunk)
 	// cout << gluErrorString(glGetError()) << endl;
 
 	glDisableClientState(GL_VERTEX_ARRAY);
-	// glDisableClientState(GL_NORMAL_ARRAY);
-	// glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	// glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -337,132 +340,76 @@ void drawChunk(ChunkData chunk)
 
 void removeCube(ChunkData &chunk, int x, int y, int z)
 {
-	cout << "Aici incepe...\n";
-	// for (unsigned int i = 0; i < chunk.size; i++)
-	// 	if (i%24 == 0) { if (
-	// 			chunk.indices[i] == (unsigned int)((x * 16  * 16 + y * 16 + z) * 24)
-	// 			// chunk.indices[i + 1] == (unsigned int)((x + 1) * 24*24*24 + y * 24*24 + z * 24) &&
-	// 			// chunk.indices[i + 2] == (unsigned int)((x + 1) * 24*24*24 + y * 24*24 + (z + 1) * 24) &&
-	// 			// chunk.indices[i + 3] == (unsigned int)(x * 24*24*24 + y * 24*24 + (z + 1) * 24)
-	// 		)
-	// 	{
-	// 		cout << "DA\n\n\n\n\n\n\n\n\n\n\n";
-	// 		for (unsigned int j = i; j < chunk.size - 24; j++)
-	// 			chunk.indices[j] = chunk.indices[j + 24];
-	// 		chunk.size -= 24;
-	// 		break;
-	// 	}}
-
 	GLuint *cubePointer = chunk.indices + (24 * (16 * 16 * y + 16 * z + x));
-	GLuint *lastCube = chunk.indices + chunk.size;
-	memmove(cubePointer, cubePointer + 24, lastCube - cubePointer - 24);
-	chunk.size -= 24;
-	chunk.indices = (GLuint *) realloc(chunk.indices, chunk.size * sizeof(GLuint));
+	memset(cubePointer, 0, 24 * sizeof(GLuint));
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, chunk.indexHandler);
 	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(chunk.indices), chunk.indices);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void addCube(ChunkData *chunk, int x, int y, int z)
+void addCube(ChunkData &chunk, int x, int y, int z)
 {
-	GLuint ind2 = 1000000;
-	bool exista = 0;
-	for (unsigned int i = 0; i < chunk.size; i++)    // verific daca exista un cub deja aici
-		if (i%24==0)
-		{
-			if (chunk.indices[i] == (unsigned int)((x * 16  * 16 + y * 16 + z) * 24) ) exista = 1;
-				// ind[i+1] == et * 17*17 + ran * 17 + col + 1 &&
-				// ind[i+2] >= et * 17*17 + (ran + 1) * 17 + col + 1 &&
-				// ind[i+3] >= et * 17*17 + (ran + 1) * 17 + col) exista = 1;
-		}
-	if (exista) removeCube(chunk, x, y, z);
+	GLuint *cubePointer = chunk.indices + (24 * (16 * 16 * y + 16 * z + x));
 
-	for (unsigned int i = 0; i < chunk.size; i++)
-		if (i%24==0) 
-			{if (
-				chunk.indices[i] > (unsigned int)((x * 16  * 16 + y * 16 + z) * 24)
-				// ind[i+1] > et * 17*17 + ran * 17 + col + 1 &&
-				// ind[i+2] > et * 17*17 + (ran + 1) * 17 + col + 1 &&
-				// ind[i+3] > et * 17*17 + (ran + 1) * 17 + col 
-				)
-			 {ind2 = i; break;}
-			}
-	if (ind2 == 1000000) 
-	{
-	cout << "Pana aici\n";
-	chunk.indices[chunk.size++] = (x * 16 * 16 + y * 16 + z) * 24;
-	chunk.indices[chunk.size++] = (x * 16 * 16 + y * 16 + z) * 24 + 1;
-	chunk.indices[chunk.size++] = (x * 16 * 16 + y * 16 + z) * 24 + 2;
-	chunk.indices[chunk.size++] = (x * 16 * 16 + y * 16 + z) * 24 + 3;
+	if (cubePointer[0] * cubePointer[1] != 0) {
+		removeCube(chunk, x, y, z);
+	}
+
+	chunk.indices[chunk.size++] = (y * 16 * 16 + z * 16 + x) * 24;
+	chunk.indices[chunk.size++] = (y * 16 * 16 + z * 16 + x) * 24 + 1;
+	chunk.indices[chunk.size++] = (y * 16 * 16 + z * 16 + x) * 24 + 2;
+	chunk.indices[chunk.size++] = (y * 16 * 16 + z * 16 + x) * 24 + 3;
 	
-	chunk.indices[chunk.size++] = (x * 16 * 16 + y * 16 + z) * 24 + 4;
-	chunk.indices[chunk.size++] = (x * 16 * 16 + y * 16 + z) * 24 + 5;
-	chunk.indices[chunk.size++] = (x * 16 * 16 + y * 16 + z) * 24 + 6;
-	chunk.indices[chunk.size++] = (x * 16 * 16 + y * 16 + z) * 24 + 7;
+	chunk.indices[chunk.size++] = (y * 16 * 16 + z * 16 + x) * 24 + 4;
+	chunk.indices[chunk.size++] = (y * 16 * 16 + z * 16 + x) * 24 + 5;
+	chunk.indices[chunk.size++] = (y * 16 * 16 + z * 16 + x) * 24 + 6;
+	chunk.indices[chunk.size++] = (y * 16 * 16 + z * 16 + x) * 24 + 7;
 			
-	chunk.indices[chunk.size++] = (x * 16 * 16 + y * 16 + z) * 24 + 8;
-	chunk.indices[chunk.size++] = (x * 16 * 16 + y * 16 + z) * 24 + 9;
-	chunk.indices[chunk.size++] = (x * 16 * 16 + y * 16 + z) * 24 + 10;
-	chunk.indices[chunk.size++] = (x * 16 * 16 + y * 16 + z) * 24 + 11;
+	chunk.indices[chunk.size++] = (y * 16 * 16 + z * 16 + x) * 24 + 8;
+	chunk.indices[chunk.size++] = (y * 16 * 16 + z * 16 + x) * 24 + 9;
+	chunk.indices[chunk.size++] = (y * 16 * 16 + z * 16 + x) * 24 + 10;
+	chunk.indices[chunk.size++] = (y * 16 * 16 + z * 16 + x) * 24 + 11;
 			
-	chunk.indices[chunk.size++] = (x * 16 * 16 + y * 16 + z) * 24 + 12;
-	chunk.indices[chunk.size++] = (x * 16 * 16 + y * 16 + z) * 24 + 13;
-	chunk.indices[chunk.size++] = (x * 16 * 16 + y * 16 + z) * 24 + 14;
-	chunk.indices[chunk.size++] = (x * 16 * 16 + y * 16 + z) * 24 + 15;
+	chunk.indices[chunk.size++] = (y * 16 * 16 + z * 16 + x) * 24 + 12;
+	chunk.indices[chunk.size++] = (y * 16 * 16 + z * 16 + x) * 24 + 13;
+	chunk.indices[chunk.size++] = (y * 16 * 16 + z * 16 + x) * 24 + 14;
+	chunk.indices[chunk.size++] = (y * 16 * 16 + z * 16 + x) * 24 + 15;
 			
-	chunk.indices[chunk.size++] = (x * 16 * 16 + y * 16 + z) * 24 + 16;
-	chunk.indices[chunk.size++] = (x * 16 * 16 + y * 16 + z) * 24 + 17;
-	chunk.indices[chunk.size++] = (x * 16 * 16 + y * 16 + z) * 24 + 18;
-	chunk.indices[chunk.size++] = (x * 16 * 16 + y * 16 + z) * 24 + 19;
+	chunk.indices[chunk.size++] = (y * 16 * 16 + z * 16 + x) * 24 + 16;
+	chunk.indices[chunk.size++] = (y * 16 * 16 + z * 16 + x) * 24 + 17;
+	chunk.indices[chunk.size++] = (y * 16 * 16 + z * 16 + x) * 24 + 18;
+	chunk.indices[chunk.size++] = (y * 16 * 16 + z * 16 + x) * 24 + 19;
 			
-	chunk.indices[chunk.size++] = (x * 16 * 16 + y * 16 + z) * 24 + 20;
-	chunk.indices[chunk.size++] = (x * 16 * 16 + y * 16 + z) * 24 + 21;
-	chunk.indices[chunk.size++] = (x * 16 * 16 + y * 16 + z) * 24 + 22;
-	chunk.indices[chunk.size++] = (x * 16 * 16 + y * 16 + z) * 24 + 23;
-	} else { 
-	chunk.size += 24;
-	for (unsigned int i = chunk.size; i >= ind2 + 24; i--)
-		chunk.indices[i] = chunk.indices[i - 24];
-	
-	chunk.indices[ind2++] = (x * 16 * 16 + y * 16 + z) * 24;
-	chunk.indices[ind2++] = (x * 16 * 16 + y * 16 + z) * 24 + 1;
-	chunk.indices[ind2++] = (x * 16 * 16 + y * 16 + z) * 24 + 2;
-	chunk.indices[ind2++] = (x * 16 * 16 + y * 16 + z) * 24 + 3;
-	
-	chunk.indices[ind2++] = (x * 16 * 16 + y * 16 + z) * 24 + 4;
-	chunk.indices[ind2++] = (x * 16 * 16 + y * 16 + z) * 24 + 5;
-	chunk.indices[ind2++] = (x * 16 * 16 + y * 16 + z) * 24 + 6;
-	chunk.indices[ind2++] = (x * 16 * 16 + y * 16 + z) * 24 + 7;
-			
-	chunk.indices[ind2++] = (x * 16 * 16 + y * 16 + z) * 24 + 8;
-	chunk.indices[ind2++] = (x * 16 * 16 + y * 16 + z) * 24 + 9;
-	chunk.indices[ind2++] = (x * 16 * 16 + y * 16 + z) * 24 + 10;
-	chunk.indices[ind2++] = (x * 16 * 16 + y * 16 + z) * 24 + 11;
-			
-	chunk.indices[ind2++] = (x * 16 * 16 + y * 16 + z) * 24 + 12;
-	chunk.indices[ind2++] = (x * 16 * 16 + y * 16 + z) * 24 + 13;
-	chunk.indices[ind2++] = (x * 16 * 16 + y * 16 + z) * 24 + 14;
-	chunk.indices[ind2++] = (x * 16 * 16 + y * 16 + z) * 24 + 15;
-			
-	chunk.indices[ind2++] = (x * 16 * 16 + y * 16 + z) * 24 + 16;
-	chunk.indices[ind2++] = (x * 16 * 16 + y * 16 + z) * 24 + 17;
-	chunk.indices[ind2++] = (x * 16 * 16 + y * 16 + z) * 24 + 18;
-	chunk.indices[ind2++] = (x * 16 * 16 + y * 16 + z) * 24 + 19;
-			
-	chunk.indices[ind2++] = (x * 16 * 16 + y * 16 + z) * 24 + 20;
-	chunk.indices[ind2++] = (x * 16 * 16 + y * 16 + z) * 24 + 21;
-	chunk.indices[ind2++] = (x * 16 * 16 + y * 16 + z) * 24 + 22;
-	chunk.indices[ind2++] = (x * 16 * 16 + y * 16 + z) * 24 + 23; }
-
-
-
-	cout << "Deci..." << chunk.size << "\n";
-
-
-
-
+	chunk.indices[chunk.size++] = (y * 16 * 16 + z * 16 + x) * 24 + 20;
+	chunk.indices[chunk.size++] = (y * 16 * 16 + z * 16 + x) * 24 + 21;
+	chunk.indices[chunk.size++] = (y * 16 * 16 + z * 16 + x) * 24 + 22;
+	chunk.indices[chunk.size++] = (y * 16 * 16 + z * 16 + x) * 24 + 23;
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, chunk.indexHandler);
 	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(chunk.indices), chunk.indices);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
+void drawChunks(ChunkData *chunks, int size)
+{
+	for (int i = 0; i < size; ++i) {
+		drawChunk(chunks[i]);
+	}
+}
+
+TextureData loadTextureFromFile(const char *fileName)
+{
+	TextureData result;
+	int n;
+
+	result.texData = stbi_load(fileName, &result.width, &result.height, &n, 3);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 
+			result.width, 
+			result.height, 0, GL_RGB, GL_UNSIGNED_BYTE, 
+			result.texData);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+	return result;
 }
