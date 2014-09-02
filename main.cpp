@@ -65,7 +65,7 @@ void initialize(void)
 	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT);
 
 	glEnable(GL_TEXTURE_2D);
-	loadTextureFromFile("data/textures/grass.jpg");
+	loadTextureFromFile("data/textures/grass_cube.jpg");
 
 	eye = createVector(20, EYE_HEIGHT, 20);
 	target = createVector(0, 0, 0);
@@ -79,6 +79,9 @@ void initialize(void)
 	}
 
 	removeCube(chunk[0], 10, 15, 8);
+	removeCube(chunk[0], 0, 15, 0);
+	for (int i = 0; i < 16; i++)
+		removeCube(chunk[0], 8, i, 10);
 
 	cout << "Done!" << "\n" << flush;
 }

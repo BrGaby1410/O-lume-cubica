@@ -27,7 +27,7 @@ GLuint CreateShader(char* filename, GLenum shadertype)
 {
 	GLuint id = glCreateShader(shadertype);
 	char *source = incarca(filename);
-	glShaderSource(id, 1, /* (const char **) */ &source, NULL);
+	glShaderSource(id, 1, (const char **) &source, NULL);
 	glCompileShader(id);
 	return id;
 }
