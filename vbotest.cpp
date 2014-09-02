@@ -313,8 +313,9 @@ void initialize(void)
 	target = createVector(0, 18, 0);
 
 	makeV();
-
+	cout << "AAA" << endl;
 	glGenBuffers(1, &vbo);
+	cout << "BBB" << endl;
 	glGenBuffers(1, &ind_buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ind_buffer);

@@ -382,7 +382,6 @@ void display(void)
 	// glutSolidCube(10);
 	glColor3f(1, 0, 0);
 	drawChunk(chunk);
-	// if (variabila >= 1&& variabila <= 1.5) addCube(chunk, 15,15,15);
 	// variabila += 0.01;
 	// cout << variabila << endl;
 	// Swap buffers in GPU
@@ -460,6 +459,7 @@ void initialize(void)
 	cout << "Creating chunk... " << flush;
 	chunk = createChunk(0, 50, 0);
 	cout << "Done!" << "\n" << flush;
+	removeCube(chunk, 0,15,0);
 
 }
 
@@ -469,7 +469,15 @@ int main(int argc, char *argv[])
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(800, 600);
 	glutCreateWindow("O lume cubica");
-	glewInit();
+
+	glewExperimental = 1;
+
+	GLenum err = glewInit();
+	if (err != GLEW_OK) {
+		cout << glewGetErrorString(err) << "\n";
+		return -1;
+	}
+
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
 	glutTimerFunc(1, tick, 0);

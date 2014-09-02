@@ -11,9 +11,9 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 
 	result.indices = new GLuint[24 * 16 * 16 * 16];
 
-	for (i = 0; i < 16; i++) {
-		for (j = 0; j < 16; j++) {
-			for (k = 0; k < 16; k++) {
+	for (j = 0; j < 16; j++) {
+		for (k = 0; k < 16; k++) {
+			for (i = 0; i < 16; i++) {
 
 				// fata de jos
 				result.indices[count] = count;
@@ -25,7 +25,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].nz = 0;
 				vertices[count].tu = 0;
 				vertices[count++].tv = 0;
-				cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
+				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
 				vertices[count].vx = offsetX + i + 1;
@@ -36,7 +36,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].nz = 0;
 				vertices[count].tu = 0;
 				vertices[count++].tv = 1;
-				cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
+				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
 				vertices[count].vx = offsetX + i + 1;
@@ -47,7 +47,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].nz = 0;
 				vertices[count].tu = 1;
 				vertices[count++].tv = 1;
-				cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
+				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
 				vertices[count].vx = offsetX + i;
@@ -58,7 +58,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].nz = 0;
 				vertices[count].tu = 1;
 				vertices[count++].tv = 0;
-				cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
+				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				// fata de sus
 				result.indices[count] = count;
@@ -70,7 +70,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].nz = 0;
 				vertices[count].tu = 0;
 				vertices[count++].tv = 0;
-				cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
+				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
 				vertices[count].vx = offsetX + i + 1;
@@ -81,7 +81,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].nz = 0;
 				vertices[count].tu = 0;
 				vertices[count++].tv = 1;
-				cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
+				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
 				vertices[count].vx = offsetX + i + 1;
@@ -92,7 +92,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].nz = 0;
 				vertices[count].tu = 1;
 				vertices[count++].tv = 1;
-				cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
+				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
 				vertices[count].vx = offsetX + i;
@@ -103,7 +103,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].nz = 0;
 				vertices[count].tu = 1;
 				vertices[count++].tv = 0;
-				cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
+				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				// fata din stanga
 				result.indices[count] = count;
@@ -115,7 +115,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].nz = 0;
 				vertices[count].tu = 0;
 				vertices[count++].tv = 0;
-				cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
+				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
 				vertices[count].vx = offsetX + i;
@@ -126,7 +126,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].nz = 0;
 				vertices[count].tu = 0;
 				vertices[count++].tv = 1;
-				cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
+				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
 				vertices[count].vx = offsetX + i;
@@ -137,7 +137,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].nz = 0;
 				vertices[count].tu = 1;
 				vertices[count++].tv = 1;
-				cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
+				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
 				vertices[count].vx = offsetX + i;
@@ -148,7 +148,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].nz = 0;
 				vertices[count].tu = 1;
 				vertices[count++].tv = 0;
-				cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
+				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				// fata din dreapta
 				result.indices[count] = count;
@@ -160,7 +160,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].nz = 0;
 				vertices[count].tu = 0;
 				vertices[count++].tv = 0;
-				cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
+				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
 				vertices[count].vx = offsetX + i + 1;
@@ -171,7 +171,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].nz = 0;
 				vertices[count].tu = 0;
 				vertices[count++].tv = 1;
-				cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
+				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
 				vertices[count].vx = offsetX + i + 1;
@@ -182,7 +182,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].nz = 0;
 				vertices[count].tu = 1;
 				vertices[count++].tv = 1;
-				cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
+				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
 				vertices[count].vx = offsetX + i + 1;
@@ -193,7 +193,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].nz = 0;
 				vertices[count].tu = 1;
 				vertices[count++].tv = 0;
-				cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
+				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				// fata din spate
 				result.indices[count] = count;
@@ -205,7 +205,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].nz = -1;
 				vertices[count].tu = 0;
 				vertices[count++].tv = 0;
-				cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
+				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
 				vertices[count].vx = offsetX + i + 1;
@@ -216,7 +216,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].nz = -1;
 				vertices[count].tu = 0;
 				vertices[count++].tv = 1;
-				cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
+				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
 				vertices[count].vx = offsetX + i + 1;
@@ -227,7 +227,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].nz = -1;
 				vertices[count].tu = 1;
 				vertices[count++].tv = 1;
-				cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
+				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
 				vertices[count].vx = offsetX + i;
@@ -238,7 +238,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].nz = -1;
 				vertices[count].tu = 1;
 				vertices[count++].tv = 0;
-				cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
+				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				// fata din fata
 				result.indices[count] = count;
@@ -250,7 +250,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].nz = 1;
 				vertices[count].tu = 0;
 				vertices[count++].tv = 0;
-				cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
+				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
 				vertices[count].vx = offsetX + i + 1;
@@ -261,7 +261,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].nz = 1;
 				vertices[count].tu = 0;
 				vertices[count++].tv = 1;
-				cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
+				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
 				vertices[count].vx = offsetX + i + 1;
@@ -272,7 +272,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].nz = 1;
 				vertices[count].tu = 1;
 				vertices[count++].tv = 1;
-				cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
+				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
 				vertices[count].vx = offsetX + i;
@@ -283,18 +283,22 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].nz = 1;
 				vertices[count].tu = 1;
 				vertices[count++].tv = 0;
-				cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
-				cout << endl;
+				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
+				// cout << count << endl;
 			}
 		}
 	}
 
+
+	// cout << glGenBuffers << "\n";
 	glGenBuffers(1, &(result.vboHandler));
+	// cout << "AAA" << endl;
 	glBindBuffer(GL_ARRAY_BUFFER, result.vboHandler);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glGenBuffers(1, &(result.indexHandler));
+	// cout << "BBBB" << endl;
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, result.indexHandler);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(result.indices), result.indices, GL_DYNAMIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -331,29 +335,36 @@ void drawChunk(ChunkData chunk)
 	// glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void removeCube(ChunkData chunk, int x, int y, int z)
+void removeCube(ChunkData &chunk, int x, int y, int z)
 {
 	cout << "Aici incepe...\n";
-	for (unsigned int i = 0; i < chunk.size; i++)
-		if (i%24 == 0) { if (
-				chunk.indices[i] == (unsigned int)((x * 16  * 16 + y * 16 + z) * 24)
-				// chunk.indices[i + 1] == (unsigned int)((x + 1) * 24*24*24 + y * 24*24 + z * 24) &&
-				// chunk.indices[i + 2] == (unsigned int)((x + 1) * 24*24*24 + y * 24*24 + (z + 1) * 24) &&
-				// chunk.indices[i + 3] == (unsigned int)(x * 24*24*24 + y * 24*24 + (z + 1) * 24)
-			)
-		{
-			cout << "DA\n\n\n\n\n\n\n\n\n\n\n";
-			for (unsigned int j = i; j < chunk.size - 24; j++)
-				chunk.indices[j] = chunk.indices[j + 24];
-			chunk.size -= 24;
-			break;
-		}}
+	// for (unsigned int i = 0; i < chunk.size; i++)
+	// 	if (i%24 == 0) { if (
+	// 			chunk.indices[i] == (unsigned int)((x * 16  * 16 + y * 16 + z) * 24)
+	// 			// chunk.indices[i + 1] == (unsigned int)((x + 1) * 24*24*24 + y * 24*24 + z * 24) &&
+	// 			// chunk.indices[i + 2] == (unsigned int)((x + 1) * 24*24*24 + y * 24*24 + (z + 1) * 24) &&
+	// 			// chunk.indices[i + 3] == (unsigned int)(x * 24*24*24 + y * 24*24 + (z + 1) * 24)
+	// 		)
+	// 	{
+	// 		cout << "DA\n\n\n\n\n\n\n\n\n\n\n";
+	// 		for (unsigned int j = i; j < chunk.size - 24; j++)
+	// 			chunk.indices[j] = chunk.indices[j + 24];
+	// 		chunk.size -= 24;
+	// 		break;
+	// 	}}
+
+	GLuint *cubePointer = chunk.indices + (24 * (16 * 16 * y + 16 * z + x));
+	GLuint *lastCube = chunk.indices + chunk.size;
+	memmove(cubePointer, cubePointer + 24, lastCube - cubePointer - 24);
+	chunk.size -= 24;
+	chunk.indices = (GLuint *) realloc(chunk.indices, chunk.size * sizeof(GLuint));
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, chunk.indexHandler);
 	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(chunk.indices), chunk.indices);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void addCube(ChunkData chunk, int x, int y, int z)
+void addCube(ChunkData *chunk, int x, int y, int z)
 {
 	GLuint ind2 = 1000000;
 	bool exista = 0;
