@@ -31,6 +31,24 @@ void display(void)
 void tick(int val)
 {
 	move(0);
+	int chunkX = (int) eye.x % 16;
+	int chunkZ = (int) eye.z % 16;
+	int chunkY = (int) (eye.y - 1.5) % 16;
+
+	ChunkData c = chunk[(3 * 3 * chunkY) + (3 * chunkZ) + chunkX];
+	int offsetX = 16 * chunkX;
+	int offsetY = 16 * chunkY;
+	int offsetZ = 16 * chunkZ;
+
+	int cubeX = (int) eye.x - offsetX;
+	int cubeY = (int) eye.y - offsetY;
+	int cubeZ = (int) eye.z - offsetZ;
+
+	cout << c.cubes << "\n";
+
+	if (c.cubes[16*16*cubeY + 16*cubeZ + cubeX] == 0)
+		cout << "GOL";
+
 	glutPostRedisplay();
 	glutTimerFunc(1, tick, val + 1);
 }
@@ -65,7 +83,6 @@ void initialize(void)
 	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT);
 
 	glEnable(GL_TEXTURE_2D);
-	loadTextureFromFile("data/textures/grass_cube.jpg");
 
 	eye = createVector(20, EYE_HEIGHT, 20);
 	target = createVector(0, 0, 0);

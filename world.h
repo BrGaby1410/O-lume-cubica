@@ -9,12 +9,6 @@ typedef struct _vertex {
 	GLfloat tu, tv;
 } Vertex;
 
-typedef struct _chunkData {
-	GLuint *indices;
-	GLuint vboHandler;
-	GLuint indexHandler;
-	unsigned int size;
-} ChunkData;
 
 typedef struct _TextureData {
 	GLuint texID;
@@ -22,6 +16,19 @@ typedef struct _TextureData {
 	int width;
 	int height;
 } TextureData;
+
+typedef struct _chunkData {
+	GLuint *indices;
+	GLuint texturesNumber;
+	GLuint *textureID;
+	TextureData *textures;
+	GLuint vboHandler;
+	GLuint indexHandler;
+	unsigned int size;
+	char *cubes;
+} ChunkData;
+
+
 
 ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ);
 void drawChunk(ChunkData chunk);
@@ -31,3 +38,4 @@ void removeCube(ChunkData &chunk, int x, int y, int z);
 void addCube(ChunkData &chunk, int x, int y, int z);
 
 TextureData loadTextureFromFile(const char *fileName);
+void loadMaterial(TextureData data);

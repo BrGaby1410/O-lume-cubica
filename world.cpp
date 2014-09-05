@@ -11,12 +11,28 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 	Vertex vertices[24 * 16 * 16 * 16];
 	unsigned int i, j, k;
 	unsigned int count = 0;
+	unsigned int count2 = 0;
 
 	result.indices = new GLuint[24 * 16 * 16 * 16];
+	result.textures = new TextureData[2];
+	result.textureID = new GLuint[2];
+
+	result.cubes = new char[16 * 16 * 16];
+
+	result.textureID[0] = 0;
+	result.textures[0] = loadTextureFromFile("data/textures/oak.jpg");
+	result.textureID[1] = 16 * 16 * 15;
+	result.textures[1] = loadTextureFromFile("data/textures/grass_cube.jpg");
+	result.texturesNumber = 2;
 
 	for (j = 0; j < 16; j++) {
 		for (k = 0; k < 16; k++) {
 			for (i = 0; i < 16; i++) {
+
+				result.cubes[count2++] = 1;
+
+				// result.textures[count2] = &t;
+				// result.textureID[count2++] = 
 
 				// fata de jos
 				result.indices[count] = count;
@@ -49,7 +65,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].ny = -1;
 				vertices[count].nz = 0;
 				vertices[count].tu = 0.5;
-				vertices[count++].tv = 0.66;
+				vertices[count++].tv = 0.65;
 				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
@@ -60,7 +76,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].ny = -1;
 				vertices[count].nz = 0;
 				vertices[count].tu = 0.25;
-				vertices[count++].tv = 0.66;
+				vertices[count++].tv = 0.65;
 				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				// fata de sus
@@ -94,7 +110,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].ny = 1;
 				vertices[count].nz = 0;
 				vertices[count].tu = 0.5;
-				vertices[count++].tv = 0.33;
+				vertices[count++].tv = 0.34;
 				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
@@ -105,7 +121,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].ny = 1;
 				vertices[count].nz = 0;
 				vertices[count].tu = 0.25;
-				vertices[count++].tv = 0.33;
+				vertices[count++].tv = 0.34;
 				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				// fata din stanga
@@ -117,7 +133,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].ny = 0;
 				vertices[count].nz = 0;
 				vertices[count].tu = 0;
-				vertices[count++].tv = 0.66;
+				vertices[count++].tv = 0.65;
 				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
@@ -128,7 +144,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].ny = 0;
 				vertices[count].nz = 0;
 				vertices[count].tu = 0.25;
-				vertices[count++].tv = 0.66;
+				vertices[count++].tv = 0.65;
 				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
@@ -139,7 +155,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].ny = 0;
 				vertices[count].nz = 0;
 				vertices[count].tu = 0.25;
-				vertices[count++].tv = 0.33;
+				vertices[count++].tv = 0.34;
 				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
@@ -150,7 +166,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].ny = 0;
 				vertices[count].nz = 0;
 				vertices[count].tu = 0;
-				vertices[count++].tv = 0.33;
+				vertices[count++].tv = 0.34;
 				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				// fata din dreapta
@@ -162,7 +178,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].ny = 0;
 				vertices[count].nz = 0;
 				vertices[count].tu = 0.75;
-				vertices[count++].tv = 0.66;
+				vertices[count++].tv = 0.65;
 				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
@@ -173,7 +189,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].ny = 0;
 				vertices[count].nz = 0;
 				vertices[count].tu = 0.5;
-				vertices[count++].tv = 0.66;
+				vertices[count++].tv = 0.65;
 				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
@@ -184,7 +200,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].ny = 0;
 				vertices[count].nz = 0;
 				vertices[count].tu = 0.5;
-				vertices[count++].tv = 0.33;
+				vertices[count++].tv = 0.34;
 				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
@@ -195,7 +211,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].ny = 0;
 				vertices[count].nz = 0;
 				vertices[count].tu = 0.75;
-				vertices[count++].tv = 0.33;
+				vertices[count++].tv = 0.34;
 				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				// fata din spate
@@ -207,7 +223,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].ny = 0;
 				vertices[count].nz = -1;
 				vertices[count].tu = 1;
-				vertices[count++].tv = 0.66;
+				vertices[count++].tv = 0.65;
 				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
@@ -218,7 +234,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].ny = 0;
 				vertices[count].nz = -1;
 				vertices[count].tu = 0.75;
-				vertices[count++].tv = 0.66;
+				vertices[count++].tv = 0.65;
 				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
@@ -229,7 +245,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].ny = 0;
 				vertices[count].nz = -1;
 				vertices[count].tu = 0.75;
-				vertices[count++].tv = 0.33;
+				vertices[count++].tv = 0.34;
 				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
@@ -240,7 +256,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].ny = 0;
 				vertices[count].nz = -1;
 				vertices[count].tu = 1;
-				vertices[count++].tv = 0.33;
+				vertices[count++].tv = 0.34;
 				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				// fata din fata
@@ -252,7 +268,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].ny = 0;
 				vertices[count].nz = 1;
 				vertices[count].tu = 0.25;
-				vertices[count++].tv = 0.66;
+				vertices[count++].tv = 0.65;
 				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
@@ -263,7 +279,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].ny = 0;
 				vertices[count].nz = 1;
 				vertices[count].tu = 0.5;
-				vertices[count++].tv = 0.66;
+				vertices[count++].tv = 0.65;
 				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
@@ -274,7 +290,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].ny = 0;
 				vertices[count].nz = 1;
 				vertices[count].tu = 0.5;
-				vertices[count++].tv = 0.33;
+				vertices[count++].tv = 0.34;
 				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 
 				result.indices[count] = count;
@@ -285,7 +301,7 @@ ChunkData createChunk(GLfloat offsetX, GLfloat offsetY, GLfloat offsetZ)
 				vertices[count].ny = 0;
 				vertices[count].nz = 1;
 				vertices[count].tu = 0.25;
-				vertices[count++].tv = 0.33;
+				vertices[count++].tv = 0.34;
 				// cout << vertices[count - 1].vx << " " << vertices[count - 1].vy << " " << vertices[count - 1].vz << endl;
 				// cout << count << endl;
 			}
@@ -325,7 +341,20 @@ void drawChunk(ChunkData chunk)
 	glNormalPointer(GL_FLOAT, sizeof(Vertex), (char *) NULL + 3 * sizeof(GLfloat));
 	glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), (char *) NULL + 6 * sizeof(GLfloat));
 
-	glDrawElements(GL_QUADS, chunk.size, GL_UNSIGNED_INT, chunk.indices);
+	if (chunk.texturesNumber == 1) {
+		loadMaterial(chunk.textures[0]);
+		glDrawElements(GL_QUADS, chunk.size, GL_UNSIGNED_INT, chunk.indices);
+	} else {
+		unsigned int i;
+		for (i = 0; i < chunk.texturesNumber - 1; i++) {
+			loadMaterial(chunk.textures[i]);
+			glDrawElements(GL_QUADS, chunk.textureID[i + 1] - chunk.textureID[i], GL_UNSIGNED_INT, chunk.indices + chunk.textureID[i]);		
+		}
+		loadMaterial(chunk.textures[i]);
+		glDrawElements(GL_QUADS, chunk.size - chunk.textureID[i], GL_UNSIGNED_INT, chunk.indices + chunk.textureID[i]);
+	}
+	
+
 	// glDrawArrays(GL_QUADS, 0, chunk.size);
 
 	// cout << gluErrorString(glGetError()) << endl;
@@ -342,6 +371,8 @@ void removeCube(ChunkData &chunk, int x, int y, int z)
 {
 	GLuint *cubePointer = chunk.indices + (24 * (16 * 16 * y + 16 * z + x));
 	memset(cubePointer, 0, 24 * sizeof(GLuint));
+
+	chunk.cubes[24 * (16 * 16 * y + 16 * z + x)] = 0;
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, chunk.indexHandler);
 	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(chunk.indices), chunk.indices);
@@ -404,12 +435,16 @@ TextureData loadTextureFromFile(const char *fileName)
 	int n;
 
 	result.texData = stbi_load(fileName, &result.width, &result.height, &n, 3);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 
-			result.width, 
-			result.height, 0, GL_RGB, GL_UNSIGNED_BYTE, 
-			result.texData);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
 	return result;
+}
+
+void loadMaterial(TextureData data)
+{
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 
+			data.width, 
+			data.height, 0, GL_RGB, GL_UNSIGNED_BYTE, 
+			data.texData);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 }
