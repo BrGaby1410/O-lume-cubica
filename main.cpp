@@ -13,6 +13,7 @@ ChunkData *chunk;
 
 void display(void)
 {
+
 	// Clear the color buffer, restore the background
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	// Load the identity matrix, clear all the previous transformations
@@ -34,8 +35,8 @@ void tick(int val)
 	int chunkX = (int) eye.x % 16;
 	int chunkZ = (int) eye.z % 16;
 	int chunkY = (int) (eye.y - 1.5) % 16;
-
-	ChunkData c = chunk[(3 * 3 * chunkY) + (3 * chunkZ) + chunkX];
+	ChunkData c ;//= chunk[(3 * 3 * chunkY) + (3 * chunkZ) + chunkX];
+	cout << "OMG\n";
 	int offsetX = 16 * chunkX;
 	int offsetY = 16 * chunkY;
 	int offsetZ = 16 * chunkZ;
@@ -44,7 +45,7 @@ void tick(int val)
 	int cubeY = (int) eye.y - offsetY;
 	int cubeZ = (int) eye.z - offsetZ;
 
-	cout << c.cubes << "\n";
+	// cout << c.cubes << "\n";
 
 	if (c.cubes[16*16*cubeY + 16*cubeZ + cubeX] == 0)
 		cout << "GOL";

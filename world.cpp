@@ -340,16 +340,17 @@ void drawChunk(ChunkData chunk)
 	glVertexPointer(3, GL_FLOAT, sizeof(Vertex), 0);
 	glNormalPointer(GL_FLOAT, sizeof(Vertex), (char *) NULL + 3 * sizeof(GLfloat));
 	glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), (char *) NULL + 6 * sizeof(GLfloat));
-
-	if (chunk.texturesNumber == 1) {
+	cout << "WTF\n";
+	if (chunk.texturesNumber == 1) { cout << "WTF2\n";
 		loadMaterial(chunk.textures[0]);
 		glDrawElements(GL_QUADS, chunk.size, GL_UNSIGNED_INT, chunk.indices);
-	} else {
+	} else { cout << "WTF3\n";
 		unsigned int i;
-		for (i = 0; i < chunk.texturesNumber - 1; i++) {
-			loadMaterial(chunk.textures[i]);
+		for (i = 0; i < chunk.texturesNumber - 1; i++) { cout << "WTF i\n";
+			loadMaterial(chunk.textures[i]); cout << "CICA\n";                 // chunks[3]
 			glDrawElements(GL_QUADS, chunk.textureID[i + 1] - chunk.textureID[i], GL_UNSIGNED_INT, chunk.indices + chunk.textureID[i]);		
 		}
+		cout << "WTF4\n";
 		loadMaterial(chunk.textures[i]);
 		glDrawElements(GL_QUADS, chunk.size - chunk.textureID[i], GL_UNSIGNED_INT, chunk.indices + chunk.textureID[i]);
 	}
@@ -424,7 +425,7 @@ void addCube(ChunkData &chunk, int x, int y, int z)
 
 void drawChunks(ChunkData *chunks, int size)
 {
-	for (int i = 0; i < size; ++i) {
+	for (int i = 0; i < size; ++i) { cout << i << "\n";
 		drawChunk(chunks[i]);
 	}
 }
